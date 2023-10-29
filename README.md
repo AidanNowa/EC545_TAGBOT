@@ -5,4 +5,4 @@ Introducing "Tagbot" – our innovative project where robotics meets fun and fit
 
 Our mission is to create robots that can play tag with kids. With Tagbot, children don't just learn science and tech; they move, strategize, and grow holistically.
 
-![An image of robots and kids playing the game of tag in a park.](/images/tagbots.png)
+<img src="/images/tagbots.png" alt="An image of robots and kids playing the game of tag in a park." width="50%" height="50%" />

@@ -131,6 +131,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build/gtest/cmake_install.cmake")
+  include("/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build/laser_tracker/cmake_install.cmake")
 
 endif()
 

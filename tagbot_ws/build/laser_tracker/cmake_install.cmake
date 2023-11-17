@@ -38,6 +38,22 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/laser_tracker" TYPE FILE FILES "/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel/include/laser_tracker/laserTrackerPIDConfig.h")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/laser_tracker" TYPE FILE FILES "/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel/lib/python2.7/dist-packages/laser_tracker/__init__.py")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  execute_process(COMMAND "/usr/bin/python2" -m compileall "/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel/lib/python2.7/dist-packages/laser_tracker/cfg")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/laser_tracker" TYPE DIRECTORY FILES "/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel/lib/python2.7/dist-packages/laser_tracker/cfg")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build/laser_tracker/catkin_generated/installspace/laser_tracker.pc")
 endif()
 

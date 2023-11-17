@@ -3,6 +3,6 @@ prefix=/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel
 Name: laser_tracker
 Description: Description of laser_tracker
 Version: 0.0.0
-Cflags: 
+Cflags: -I/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel/include
 Libs: -L${prefix}/lib 
 Requires: 

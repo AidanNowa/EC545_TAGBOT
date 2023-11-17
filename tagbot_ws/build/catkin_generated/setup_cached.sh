@@ -7,9 +7,5 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel:$CMAKE_PREFIX_PATH"
-export LD_LIBRARY_PATH="/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel/lib:$LD_LIBRARY_PATH"
-export PKG_CONFIG_PATH="/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PWD='/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build'
-export ROSLISP_PACKAGE_DIRECTORIES="/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
-export ROS_PACKAGE_PATH='/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/src:/home/jetson/software/library_ws/src:/home/jetson/yahboomcar_ws/src:/home/jetson/software/world_canvas/src:/opt/ros/melodic/share'
+export PYTHONPATH="/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel/lib/python2.7/dist-packages:$PYTHONPATH"

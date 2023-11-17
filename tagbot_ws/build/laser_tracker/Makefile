@@ -91,6 +91,17 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
+
 # Special rule for the target list_install_components
 list_install_components:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
@@ -124,17 +135,6 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
 # The main all target
 all: cmake_check_build_system
 	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build/CMakeFiles /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build/laser_tracker/CMakeFiles/progress.marks
@@ -166,6 +166,66 @@ preinstall/fast:
 depend:
 	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+# Convenience name for target.
+laser_tracker/CMakeFiles/laser_tracker_gencfg.dir/rule:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f CMakeFiles/Makefile2 laser_tracker/CMakeFiles/laser_tracker_gencfg.dir/rule
+.PHONY : laser_tracker/CMakeFiles/laser_tracker_gencfg.dir/rule
+
+# Convenience name for target.
+laser_tracker_gencfg: laser_tracker/CMakeFiles/laser_tracker_gencfg.dir/rule
+
+.PHONY : laser_tracker_gencfg
+
+# fast build rule for target.
+laser_tracker_gencfg/fast:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f laser_tracker/CMakeFiles/laser_tracker_gencfg.dir/build.make laser_tracker/CMakeFiles/laser_tracker_gencfg.dir/build
+.PHONY : laser_tracker_gencfg/fast
+
+# Convenience name for target.
+laser_tracker/CMakeFiles/dynamic_reconfigure_gencfg.dir/rule:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f CMakeFiles/Makefile2 laser_tracker/CMakeFiles/dynamic_reconfigure_gencfg.dir/rule
+.PHONY : laser_tracker/CMakeFiles/dynamic_reconfigure_gencfg.dir/rule
+
+# Convenience name for target.
+dynamic_reconfigure_gencfg: laser_tracker/CMakeFiles/dynamic_reconfigure_gencfg.dir/rule
+
+.PHONY : dynamic_reconfigure_gencfg
+
+# fast build rule for target.
+dynamic_reconfigure_gencfg/fast:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f laser_tracker/CMakeFiles/dynamic_reconfigure_gencfg.dir/build.make laser_tracker/CMakeFiles/dynamic_reconfigure_gencfg.dir/build
+.PHONY : dynamic_reconfigure_gencfg/fast
+
+# Convenience name for target.
+laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/rule:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f CMakeFiles/Makefile2 laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/rule
+.PHONY : laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/rule
+
+# Convenience name for target.
+dynamic_reconfigure_generate_messages_py: laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/rule
+
+.PHONY : dynamic_reconfigure_generate_messages_py
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_py/fast:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/build.make laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_py/fast
+
+# Convenience name for target.
+laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/rule:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f CMakeFiles/Makefile2 laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/rule
+.PHONY : laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+dynamic_reconfigure_generate_messages_lisp: laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/rule
+
+.PHONY : dynamic_reconfigure_generate_messages_lisp
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_lisp/fast:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/build.make laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_lisp/fast
 
 # Convenience name for target.
 laser_tracker/CMakeFiles/roscpp_generate_messages_py.dir/rule:
@@ -211,6 +271,21 @@ roscpp_generate_messages_lisp: laser_tracker/CMakeFiles/roscpp_generate_messages
 roscpp_generate_messages_lisp/fast:
 	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f laser_tracker/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make laser_tracker/CMakeFiles/roscpp_generate_messages_lisp.dir/build
 .PHONY : roscpp_generate_messages_lisp/fast
+
+# Convenience name for target.
+laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/rule:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f CMakeFiles/Makefile2 laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/rule
+.PHONY : laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+dynamic_reconfigure_generate_messages_nodejs: laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/rule
+
+.PHONY : dynamic_reconfigure_generate_messages_nodejs
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_nodejs/fast:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/build.make laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_nodejs/fast
 
 # Convenience name for target.
 laser_tracker/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule:
@@ -303,6 +378,21 @@ std_msgs_generate_messages_cpp/fast:
 .PHONY : std_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
+laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/rule:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f CMakeFiles/Makefile2 laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/rule
+.PHONY : laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+dynamic_reconfigure_generate_messages_cpp: laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/rule
+
+.PHONY : dynamic_reconfigure_generate_messages_cpp
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_cpp/fast:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build.make laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_cpp/fast
+
+# Convenience name for target.
 laser_tracker/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule:
 	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f CMakeFiles/Makefile2 laser_tracker/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
 .PHONY : laser_tracker/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
@@ -346,6 +436,21 @@ std_msgs_generate_messages_eus: laser_tracker/CMakeFiles/std_msgs_generate_messa
 std_msgs_generate_messages_eus/fast:
 	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f laser_tracker/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make laser_tracker/CMakeFiles/std_msgs_generate_messages_eus.dir/build
 .PHONY : std_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/rule:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f CMakeFiles/Makefile2 laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/rule
+.PHONY : laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+dynamic_reconfigure_generate_messages_eus: laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/rule
+
+.PHONY : dynamic_reconfigure_generate_messages_eus
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_eus/fast:
+	cd /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build && $(MAKE) -f laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/build.make laser_tracker/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_eus/fast
 
 # Convenience name for target.
 laser_tracker/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule:
@@ -401,11 +506,17 @@ help:
 	@echo "... install/strip"
 	@echo "... install/local"
 	@echo "... rebuild_cache"
+	@echo "... test"
+	@echo "... laser_tracker_gencfg"
+	@echo "... dynamic_reconfigure_gencfg"
+	@echo "... dynamic_reconfigure_generate_messages_py"
+	@echo "... dynamic_reconfigure_generate_messages_lisp"
 	@echo "... list_install_components"
 	@echo "... roscpp_generate_messages_py"
 	@echo "... roscpp_generate_messages_eus"
 	@echo "... edit_cache"
 	@echo "... roscpp_generate_messages_lisp"
+	@echo "... dynamic_reconfigure_generate_messages_nodejs"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... roscpp_generate_messages_cpp"
@@ -413,13 +524,14 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... std_msgs_generate_messages_cpp"
+	@echo "... dynamic_reconfigure_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... rosgraph_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_eus"
+	@echo "... dynamic_reconfigure_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_py"
-	@echo "... test"
 .PHONY : help
 
 

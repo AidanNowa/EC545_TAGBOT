@@ -29,7 +29,7 @@ class laserAvoid:
         Server(laserAvoidPIDConfig, self.dynamic_reconfigure_callback)
         self.linear = 0.5
         self.angular = 1.0
-        self.ResponseDist = 0.4 # the threshold distance 
+        self.ResponseDist = 0.6 # the threshold distance 
 	self.prev_linear = 0
         self.LaserAngle = 30  # 10~180
         self.sub_laser = rospy.Subscriber('/scan', LaserScan, self.registerScan, queue_size=1)
@@ -209,7 +209,7 @@ class laserAvoid:
 	    # catch condition
 	    if self.tagbot_distance < self.ResponseDist:
 		twist.linear.x = self.prev_linear * 0.25
-		self.tagbot_angle = 0
+		#self.tagbot_angle = 0
 	    else:
 	    	twist.linear.x = -self.lin_pid.pid_compute(self.ResponseDist, self.tagbot_distance)
 	    

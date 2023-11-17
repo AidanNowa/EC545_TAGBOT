@@ -12,11 +12,13 @@ from geometry_msgs.msg import Vector3, Vector3Stamped
 from sensor_msgs.msg import LaserScan
 from dynamic_reconfigure.server import Server
 from yahboomcar_laser.cfg import laserAvoidPIDConfig
+from Rosmaster_Lib import Rosmaster
 RAD2DEG = 180 / math.pi
 
 class laserAvoid:
     def __init__(self):
         rospy.on_shutdown(self.cancel)
+	self.bot = Rosmaster()
         self.r = rospy.Rate(20)
         self.Moving = False
         self.switch = False
@@ -210,9 +212,12 @@ class laserAvoid:
 	    if self.tagbot_distance < self.ResponseDist:
 		twist.linear.x = self.prev_linear * 0.25
 		#self.tagbot_angle = 0
+		self.bot.set_colorful_lamps(0xff, 0, 255, 0) # green
 	    else:
 	    	twist.linear.x = -self.lin_pid.pid_compute(self.ResponseDist, self.tagbot_distance)
-	    
+	    	self.bot.set_colorful_lamps(0xff, 0, 0, 255) # blue
+
+
 	    ang_pid_compute = (self.ang_pid.pid_compute((180 - abs(self.tagbot_angle)) / 72, 0)) * 0.15
 	    #print('angle with calc: {}'.format(ang_pid_compute))
 	    print('angle from message: {}'.format(self.tagbot_angle))

@@ -66,6 +66,7 @@ class laserTracker:
             minDist = min(minDistList)
             minDistID = minDistIDList[minDistList.index(minDist)]
         # rospy.loginfo('minDist: {}, minDistID: {}'.format(minDist, minDistID))
+        self.set_color_light(minDist)
         if self.ros_ctrl.Joy_active or self.switch == True:
             if self.Moving == True:
                 self.ros_ctrl.pub_vel.publish(Twist())
@@ -92,6 +93,14 @@ class laserTracker:
         self.lin_pid.Set_pid(config['lin_Kp'], config['lin_Ki'], config['lin_Kd'])
         self.ang_pid.Set_pid(config['ang_Kp'], config['ang_Ki'], config['ang_Kd'])
         return config
+
+    def set_color_light(self, distance):
+        if distance < 0.3:
+            self.bot.set_colorful_lamps(0xff, 255, 0, 0) # red
+        elif distance < 0.7:
+            self.bot.set_colorful_lamps(0xff, 255, 255, 0) # yellow
+        else:
+            self.bot.set_colorful_lamps(0xff, 0, 0, 255) # blue
 
 
 if __name__ == '__main__':

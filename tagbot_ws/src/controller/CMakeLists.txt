@@ -10,7 +10,8 @@ project(controller)
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   message_generation
-  opencv
+  opencv2
+  opencv_apps
   rospy
   sensor_msgs
   std_msgs

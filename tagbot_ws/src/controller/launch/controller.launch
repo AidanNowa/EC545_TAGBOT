@@ -1,0 +1,4 @@
+<launch>
+ <include file="$(find yahboomcar_laser)/launch/base.launch"/>   
+ <node name='controller' pkg="controller" type="controller.py" required="true" output="screen"/>
+</launch>

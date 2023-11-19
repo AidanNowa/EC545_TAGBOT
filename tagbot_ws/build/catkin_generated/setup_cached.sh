@@ -8,4 +8,3 @@
 
 # modified environment variables
 export PWD='/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/build'
-export PYTHONPATH="/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel/lib/python2.7/dist-packages:$PYTHONPATH"

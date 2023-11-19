@@ -71,8 +71,8 @@ class laserAvoid:
         return config
 
     def registerScan(self, scan_data):
-	rospy.loginfo('my_message:{}'.format(self.active))
-        rospy.loginfo('Moving:{}'.format(self.Moving))
+	#print('my_message:{}'.format(self.active))
+        #print('Moving:{}'.format(self.Moving))
         if not isinstance(scan_data, LaserScan): return
         # Record the laser scan and publish the position of the nearest object (or point to a point)
         ranges = np.array(scan_data.ranges)
@@ -186,6 +186,7 @@ class laserAvoid:
 
 
 if __name__ == '__main__':
+    print('controller:hello')
     rospy.init_node('laser_Avoidance', anonymous=False)
     tracker = laserAvoid()
     rospy.spin()

@@ -8,6 +8,7 @@ from time import sleep
 from std_msgs.msg import Bool
 from std_msgs.msg import Float32
 from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Vector3, Vector3Stamped
 from sensor_msgs.msg import LaserScan
 from dynamic_reconfigure.server import Server
 from yahboomcar_laser.cfg import laserAvoidPIDConfig
@@ -23,22 +24,38 @@ class laserAvoid:
         self.Left_warning = 0
         self.front_warning = 0
         self.ros_ctrl = ROSCtrl()
+	self.lin_pid = SinglePID(2.0, 0.0, 2.0)
+        self.ang_pid = SinglePID(3.0, 0.0, 5.0)
         Server(laserAvoidPIDConfig, self.dynamic_reconfigure_callback)
         self.linear = 0.5
         self.angular = 1.0
         self.ResponseDist = 0.55 # the threshold distance 
         self.LaserAngle = 30  # 10~180
         self.sub_laser = rospy.Subscriber('/scan', LaserScan, self.registerScan, queue_size=1)
+	
+	self.tagbot_distance = 0
+	self.tagbot_angle = 0
+	self.timestamp = rospy.Time.now()
+	self.sub_position = rospy.Subscriber('/tagbot/target_position', Vector3Stamped, self.register_position, queue_size = 1)
+
 	self.sub_mytopic = rospy.Subscriber('/mytopic', Bool, self.callback, queue_size=1)
 	self.detected = rospy.Subscriber('/tagbot/detected', Bool, self.detected_callback, queue_size=1)
-	self.tagbot_angle = rospy.Subscriber('/tagbot/angle', Float32, self.tagbot_angle_callback, queue_size=1)
-	self.tagbot_distance = rospy.Subscriber('/tagbot/distance', Float32, self.tagbot_distance_callback, queue_size=1)
+	#self.tagbot_angle = rospy.Subscriber('/tagbot/angle', Float32, self.tagbot_angle_callback, queue_size=1)
+	#self.tagbot_distance = rospy.Subscriber('/tagbot/distance', Float32, self.tagbot_distance_callback, queue_size=1)
 	#self.sub_tagbot_timestamp = rospy.Subscriber('/tagbot/timestamp', Time, self.tagbot_timestamp_callback, queue_size=1)	
 	self.active = False
 
     #def tagbot_timestamp_callback(self, data):
 	#rospy.loginfo('my_message:{}'.format(data))
 	#self.timestamp = data
+
+    def register_position(self, message):
+	if not isinstance(message, Vector3Stamped): return	
+	timestamp = message.header.stamp
+	self.tagbot_distance = message.vector.x / 1000
+	self.tagbot_angle = message.vector.y
+	print('received: distance: {},angle: {}'.format(self.tagbot_distance, self.tagbot_angle))
+	
 
     def tagbot_angle_callback(self, data):
 	rospy.loginfo('my_message:{}'.format(data))
@@ -101,6 +118,25 @@ class laserAvoid:
 	#    return
         self.Moving = True
         twist = Twist()
+	print("check point1!")
+	#temp
+	if (True):#rospy.Time.now() - rospy.Duration(1)) < self.timestamp:
+	    print("target detected!")
+	    print('distance: {},angle: {}'.format(self.tagbot_distance, self.tagbot_angle))
+	    if abs(self.tagbot_distance - self.ResponseDist) < 0.1: 
+	        self.tagbot_distance = self.ResponseDist
+                #if minDist - self.ResponseDist < 0.1: 
+	        #self.tagbot_distance = self.ResponseDist
+	    twist.linear.x = -self.lin_pid.pid_compute(self.ResponseDist, self.tagbot_distance)
+	    ang_pid_compute = self.ang_pid.pid_compute((180 - abs(self.tagbot_angle)) / 72, 0)
+	    if self.tagbot_angle > 0: twist.angular.z = -ang_pid_compute
+	    else: twist.angular.z = ang_pid_compute
+	    if ang_pid_compute < 0.02: twist.angular.z = 0
+		
+		
+	    self.ros_ctrl.pub_vel.publish(twist)
+	    
+	    sleep(0.2)
         # Left positive and right negative
         if self.front_warning > 10 and self.Left_warning > 10 and self.Right_warning > 10:
             # print ('1, there are obstacles in the left and right, turn right')
@@ -158,12 +194,14 @@ class laserAvoid:
             sleep(0.2)
 
 	#if object detected and no warnings, move to object
-	elif self.detected == True and self.front_warning <= 10 and self.Left_warning <= 10 and self.Right_warning <= 10:
+	elif (rospy.Time.now() - rospy.Duration(1)) < self.timestamp and self.front_warning <= 10 and self.Left_warning <= 10 and self.Right_warning <= 10:
+	    print("target detected!")
+	    print('distance: {},angle: {}'.format(self.tagbot_distance, self.tagbot_angle))
 	    if abs(self.tagbot_distance - self.ResponseDist) < 0.1: 
                 #if minDist - self.ResponseDist < 0.1: 
-	        tagbot_distance = self.ResponseDist
+	        #self.tagbot_distance = self.ResponseDist
 
-	        velocity.linear.x = -self.lin_pid.pid_compute(self.ResponseDist, tagbot_distance)
+	        velocity.linear.x = -self.lin_pid.pid_compute(self.ResponseDist, self.tagbot_distance)
 	        ang_pid_compute = self.ang_pid.pid_compute((180 - abs(tagbot_angle)) / 72, 0)
 	    if tagbot_angle > 0: velocity.angular.z = -ang_pid_compute
 	    else: velocity.angular.z = ang_pid_compute

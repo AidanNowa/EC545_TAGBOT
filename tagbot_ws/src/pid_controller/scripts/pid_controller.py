@@ -44,7 +44,8 @@ class PIDController:
                 self.ros_ctrl.pub_vel.publish(Twist())
                 self.moving = False
             return
-        if not self.is_target_detected(): return
+        if not self.is_target_detected():
+            print('target not detected')
         self.publish_pid_control()
 
     def is_target_detected(self):
@@ -61,6 +62,7 @@ class PIDController:
         return config
     
     def publish_pid_control(self):
+        print('publish_pid_control')
         target_distance = self.latest_position.vector.x
         target_angle = self.latest_position.vector.y
         twist = Twist()

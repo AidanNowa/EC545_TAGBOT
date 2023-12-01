@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # coding:utf-8
 import math
+import time
 import numpy as np
 from common import *
 from std_msgs.msg import Bool
 from sensor_msgs.msg import LaserScan
 from dynamic_reconfigure.server import Server
 from yahboomcar_laser.cfg import laserTrackerPIDConfig
+from Rosmaster_Lib import Rosmaster
 RAD2DEG = 180 / math.pi
 
 class laserTracker:
@@ -22,6 +24,13 @@ class laserTracker:
         self.laserAngle = 90
         self.priorityAngle = 30  # 40
         self.sub_laser = rospy.Subscriber('/scan', LaserScan, self.registerScan, queue_size=1)
+        self.bot = Rosmaster()
+        self.startup_beep()
+
+    def startup_beep(self):
+        for _ in range(5):
+            self.bot.set_beep(1)
+            time.sleep(1)
 
     def cancel(self):
         self.ros_ctrl.pub_vel.publish(Twist())

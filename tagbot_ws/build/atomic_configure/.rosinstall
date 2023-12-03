@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel/setup.sh

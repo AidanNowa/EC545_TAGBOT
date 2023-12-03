@@ -1,0 +1,2 @@
+laser_tracker
+-DCATKIN_DEVEL_PREFIX=/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/devel -DCMAKE_INSTALL_PREFIX=/home/jetson/Desktop/EC545_TAGBOT/tagbot_ws/install -G Unix Makefiles

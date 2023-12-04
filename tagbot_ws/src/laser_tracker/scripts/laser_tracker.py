@@ -23,7 +23,7 @@ class laserTracker:
         Server(laserTrackerPIDConfig, self.dynamic_reconfigure_callback)
         self.laserAngle = 90
         self.priorityAngle = 30  # 40
-        # self.sub_laser = rospy.Subscriber('/scan', LaserScan, self.registerScan, queue_size=1)
+        self.sub_laser = rospy.Subscriber('/scan', LaserScan, self.registerScan, queue_size=1)
         self.sub_ppl = rospy.Subscriber('/people_detect/found', RectArrayStamped, self.register_people_detector)
         self.bot = Rosmaster()
 
@@ -35,6 +35,7 @@ class laserTracker:
 
     def registerScan(self, scan_data):
         if not isinstance(scan_data, LaserScan): return
+        print('register_scan')
         # 记录激光扫描并发布最近物体的位置（或指向某点）
         # Record the laser scan and publish the position of the nearest object (or point to a point)
         ranges = np.array(scan_data.ranges)
@@ -89,6 +90,7 @@ class laserTracker:
 
     def register_people_detector(self, message):
         if not isinstance(message, RectArrayStamped): return
+        print('register_people_detector')
         print('message.rect ', message.rect)
 
     def dynamic_reconfigure_callback(self, config, level):

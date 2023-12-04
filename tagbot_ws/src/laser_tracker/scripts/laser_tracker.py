@@ -5,6 +5,7 @@ import numpy as np
 from common import *
 from std_msgs.msg import Bool
 from sensor_msgs.msg import LaserScan
+from opencv_apps import RectArrayStamped
 from dynamic_reconfigure.server import Server
 from yahboomcar_laser.cfg import laserTrackerPIDConfig
 from Rosmaster_Lib import Rosmaster
@@ -22,7 +23,8 @@ class laserTracker:
         Server(laserTrackerPIDConfig, self.dynamic_reconfigure_callback)
         self.laserAngle = 90
         self.priorityAngle = 30  # 40
-        self.sub_laser = rospy.Subscriber('/scan', LaserScan, self.registerScan, queue_size=1)
+        # self.sub_laser = rospy.Subscriber('/scan', LaserScan, self.registerScan, queue_size=1)
+        self.sub_ppl = rospy.Subscriber('/people_detect/found', RectArrayStamped, self.register_people_detector)
         self.bot = Rosmaster()
 
     def cancel(self):
@@ -84,6 +86,10 @@ class laserTracker:
         # rospy.loginfo('minDistID: {},ang_pid_compute: {}'.format(minDistID,ang_pid_compute))
         # rospy.loginfo('minDist: {}, linearX: {}'.format(minDist, velocity.linear.x))
         # rospy.loginfo('minDistID: {}, angularSpeed: {}'.format(minDistID, velocity.angular.z))
+
+    def register_people_detector(self, message):
+        if not isinstance(message, RectArrayStamped): return
+        print('message.rect ', message.rect)
 
     def dynamic_reconfigure_callback(self, config, level):
         self.switch = config['switch']

@@ -5,7 +5,7 @@ import numpy as np
 from common import *
 from std_msgs.msg import Bool
 from sensor_msgs.msg import LaserScan
-from opencv_apps import RectArrayStamped
+from opencv_apps.msg import RectArrayStamped
 from dynamic_reconfigure.server import Server
 from yahboomcar_laser.cfg import laserTrackerPIDConfig
 from Rosmaster_Lib import Rosmaster

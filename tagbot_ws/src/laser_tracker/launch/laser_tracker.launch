@@ -1,5 +1,6 @@
 <launch>
     <include file="$(find laser_tracker)/launch/base.launch"/>
+    <include file="$(find astra_camera)/launch/astrapro.launch"/>
     <include file="$(find opencv_apps)/launch/people_detect.launch"/>
     <!-- Activate lidar follow node -->
     <node name='laser_tracker' pkg="laser_tracker" type="laser_tracker.py" required="true" output="screen"/>

@@ -28,7 +28,7 @@ class ColorDetector:
         rect_list = self.detect_colors(hsv_image_frame)
         self.publish_rect_detection(rect_list)
         
-    def detect_colors(self, hsv_image_frame):
+    def detect_colors(self, image_frame, hsv_image_frame):
         red_lower = np.array([136, 87, 111], np.uint8) 
         red_upper = np.array([180, 255, 255], np.uint8) 
         red_mask = cv2.inRange(hsv_image_frame, red_lower, red_upper)
@@ -36,7 +36,6 @@ class ColorDetector:
         red_mask = cv2.dilate(red_mask, kernel) 
         im2, contours, hierarchy = cv2.findContours(red_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         rect_list = []
-        image_frame = hsv_image_frame
         for pic, contour in enumerate(contours):
             area = cv2.contourArea(contour)
             if area < 300: continue

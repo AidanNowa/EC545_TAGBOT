@@ -30,8 +30,8 @@ class HumanDetector:
         humans, _ = self.hog.detectMultiScale(image, winStride=(10, 10), padding=(32, 32), scale=1.1)
         return humans
     
-    def _create_detection_message(self, humans: RectArray):
-        return RectArrayStamped(time.time(), humans)
+    def _create_detection_message(self, rect_list):
+        return RectArrayStamped(time.time(), rect_list)
 
 
 if __name__ == '__main__':

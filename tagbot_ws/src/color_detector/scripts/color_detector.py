@@ -33,7 +33,6 @@ class ColorDetector:
     def register_rgb_image(self, message):
         if not isinstance(message, Image): return
         image_frame = self.bridge.imgmsg_to_cv2(message, 'bgr8')
-        print('image size ', image_frame.shape)
         hsv_image_frame = cv2.cvtColor(image_frame, cv2.COLOR_BGR2HSV)
         self.detect_colors(image_frame, hsv_image_frame)
         if self.depth_image is None: return
@@ -56,7 +55,7 @@ class ColorDetector:
             area = cv2.contourArea(contour)
             if area < CONTOUR_AREA_THRESHOLD: continue
             x, y, w, h = cv2.boundingRect(contour)
-            rect = tuple(x, y, w, h)
+            rect = (x, y, w, h)
             rect_list.append(rect)
             image_frame = cv2.rectangle(image_frame, (x, y), (x + w, y + h), (255, 0, 0), 2) 
         # print('red contours detected :', len(rect_list))

@@ -41,7 +41,8 @@ class ColorDetector:
 
     def register_depth_image(self, message):
         if not isinstance(message, Image): return
-        self.depth_image = self.bridge.imgmsg_to_cv2(message, DEPTH_ENCODING)
+        image_frame = self.bridge.imgmsg_to_cv2(message, DEPTH_ENCODING)
+        self.depth_image = cv2.resize(image_frame, (640, 480))
         
     def detect_colors(self, image_frame, hsv_image_frame):
         red_lower = np.array([136, 87, 111], np.uint8) 

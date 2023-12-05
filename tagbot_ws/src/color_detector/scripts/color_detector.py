@@ -25,7 +25,7 @@ class ColorDetector:
         if not isinstance(message, Image): return
         image_frame = self.bridge.imgmsg_to_cv2(message, "bgr8")
         hsv_image_frame = cv2.cvtColor(image_frame, cv2.COLOR_BGR2HSV)
-        rect_list = self.detect_colors(hsv_image_frame)
+        rect_list = self.detect_colors(image_frame, hsv_image_frame)
         self.publish_rect_detection(rect_list)
         
     def detect_colors(self, image_frame, hsv_image_frame):

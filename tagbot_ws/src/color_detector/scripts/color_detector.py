@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from color_detector.msg import TargetPosition
+# from color_detector.msg import TargetPosition
 
 CONTOUR_AREA_THRESHOLD = 300
 DEPTH_ENCODING = '32FC1'
@@ -22,13 +22,13 @@ class ColorDetector:
         self.depth_image = None
         self.sub_rgb = rospy.Subscriber('/camera/rgb/image_raw', Image, self.register_rgb_image, queue_size=1)
         self.sub_depth = rospy.Subscriber('/camera/depth/image_raw', Image, self.register_depth_image, queue_size=1)
-        self.pub_position = rospy.Publisher('target_position', TargetPosition, queue_size=10)
+        # self.pub_position = rospy.Publisher('target_position', TargetPosition, queue_size=10)
 
     def on_shutdown(self):
         cv2.destroyAllWindows()
         self.sub_rgb.unregister()
         self.sub_depth.unregister()
-        self.pub_position.unregister()
+        # self.pub_position.unregister()
 
     def register_rgb_image(self, message):
         if not isinstance(message, Image): return
@@ -78,16 +78,19 @@ class ColorDetector:
                 closest_distance = distance
         if closest_target is None: return None
         x_center = closest_target[0]
-        target_position = TargetPosition()
-        target_position.timestamp = time.time()
-        target_position.distance = closest_distance
-        target_position.angle = x_center / IMAGE_WIDTH * FOV_H - FOV_H / 2
-        return target_position
+        print('closest_distance ', closest_distance)
+        print('closest_target ', closest_target)
+        pass
+        # target_position = TargetPosition()
+        # target_position.timestamp = time.time()
+        # target_position.distance = closest_distance
+        # target_position.angle = x_center / IMAGE_WIDTH * FOV_H - FOV_H / 2
+        # return target_position
 
     def publish_target_position(self, target_position):
         if target_position is None: return
         print('Publish target_position: {}, {}, {}', target_position.timestamp, target_position.distance, target_position.angle)
-        self.pub_position.publish(target_position)
+        # self.pub_position.publish(target_position)
 
 
 if __name__ == '__main__':

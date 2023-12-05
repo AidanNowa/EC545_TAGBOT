@@ -16,13 +16,13 @@ class ColorDetector:
         self.pub_rect = rospy.Publisher('rect_detection', RectArray, queue_size=10)
 
     def on_shutdown(self):
+        cv2.destroyAllWindows()
         self.sub_rgb.unregister()
         self.pub_rect.unregister()
         rospy.loginfo("Shutting down this node.")
 
     def register_rgb_image(self, message):
         if not isinstance(message, Image): return
-        print('ColorDetector register_rgb_image')
         image_frame = self.bridge.imgmsg_to_cv2(message, "bgr8")
         hsv_image_frame = cv2.cvtColor(image_frame, cv2.COLOR_BGR2HSV)
         rect_list = self.detect_colors(hsv_image_frame)
@@ -35,14 +35,18 @@ class ColorDetector:
         kernel = np.ones((5, 5), "uint8") 
         red_mask = cv2.dilate(red_mask, kernel) 
         im2, contours, hierarchy = cv2.findContours(red_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        print('red contours detected :', len(contours))
         rect_list = []
+        image_frame = hsv_image_frame
         for pic, contour in enumerate(contours):
             area = cv2.contourArea(contour)
             if area < 300: continue
             x, y, w, h = cv2.boundingRect(contour)
             rect = Rect(x, y, w, h)
             rect_list.append(rect)
+            image_frame = cv2.rectangle(image_frame, (x, y), (x + w, y + h), (255, 0, 0), 2) 
+        print('red contours detected :', len(rect_list))
+        cv2.imshow('RED detection', image_frame)
+        cv2.waitKey(10)
         return rect_list
     
     def publish_rect_detection(self, rect_list):

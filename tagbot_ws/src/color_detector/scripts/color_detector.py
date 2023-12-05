@@ -21,7 +21,7 @@ class ColorDetector:
         self.depth_image = None
         self.sub_rgb = rospy.Subscriber('/camera/rgb/image_raw', Image, self.register_rgb_image, queue_size=1)
         self.sub_depth = rospy.Subscriber('/camera/depth/image_raw', Image, self.register_depth_image, queue_size=1)
-        self.pub_position = rospy.Publisher('target_position', list, queue_size=10)
+        self.pub_position = rospy.Publisher('target_position', tuple, queue_size=10)
 
     def on_shutdown(self):
         cv2.destroyAllWindows()

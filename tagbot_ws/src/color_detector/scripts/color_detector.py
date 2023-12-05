@@ -65,7 +65,7 @@ class ColorDetector:
     
     def get_target_position(self):
         # Choose the closest point among the detected rects
-        if len(self.target_list) > 0: return None
+        if len(self.target_list) <= 0: return None
         closest_target = None
         closest_distance = float('inf')
         for x, y, w, h in self.target_list:
@@ -77,13 +77,14 @@ class ColorDetector:
                 closest_distance = distance
         if closest_target is None: return None
         x_center = closest_target[0]
+        target_angle = x_center / IMAGE_WIDTH * FOV_H - FOV_H / 2
         print('closest_distance ', closest_distance)
-        print('closest_target ', closest_target)
+        print('target_angle ', target_angle)
         pass
         # target_position = TargetPosition()
         # target_position.timestamp = time.time()
         # target_position.distance = closest_distance
-        # target_position.angle = x_center / IMAGE_WIDTH * FOV_H - FOV_H / 2
+        # target_position.angle = target_angle
         # return target_position
 
     def publish_target_position(self, target_position):

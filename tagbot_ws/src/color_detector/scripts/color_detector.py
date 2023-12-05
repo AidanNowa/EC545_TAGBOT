@@ -38,7 +38,7 @@ class ColorDetector:
         rect_list = []
         for pic, contour in enumerate(contours):
             area = cv2.contourArea(contour)
-            if area < 300: continue
+            if area < 100: continue
             x, y, w, h = cv2.boundingRect(contour)
             rect = Rect(x, y, w, h)
             rect_list.append(rect)

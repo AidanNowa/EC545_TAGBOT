@@ -34,7 +34,7 @@ class ColorDetector:
         red_mask = cv2.inRange(hsv_image_frame, red_lower, red_upper)
         kernel = np.ones((5, 5), "uint8") 
         red_mask = cv2.dilate(red_mask, kernel) 
-        contours, hierarchy = cv2.findContours(red_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        im2, contours, hierarchy = cv2.findContours(red_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         print('red contours detected :', len(contours))
         rect_list = []
         for pic, contour in enumerate(contours):

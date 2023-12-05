@@ -21,13 +21,13 @@ class ColorDetector:
         self.depth_image = None
         self.sub_rgb = rospy.Subscriber('/camera/rgb/image_raw', Image, self.register_rgb_image, queue_size=1)
         self.sub_depth = rospy.Subscriber('/camera/depth/image_raw', Image, self.register_depth_image, queue_size=1)
-        self.pub_position = rospy.Publisher('target_position', tuple, queue_size=10)
+        # self.pub_position = rospy.Publisher('target_position', tuple, queue_size=10)
 
     def on_shutdown(self):
         cv2.destroyAllWindows()
         self.sub_rgb.unregister()
         self.sub_depth.unregister()
-        self.pub_position.unregister()
+        # self.pub_position.unregister()
 
     def register_rgb_image(self, message):
         if not isinstance(message, Image): return
@@ -83,7 +83,7 @@ class ColorDetector:
     def publish_target_position(self, target_position):
         if target_position is None: return
         print('Publish target_position ', target_position)
-        self.pub_position.publish(target_position)
+        # self.pub_position.publish(target_position)
 
 
 if __name__ == '__main__':

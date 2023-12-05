@@ -24,6 +24,7 @@ class HumanDetector:
         if len(detected_humans) <= 0: return
         detection_message = self._create_detection_message(detected_humans)
         self.pub_detection.publish(detection_message)
+        cv2.imshow('frame', frame)
 
     def _detect_humans(self, image):
         # RectArray = [Rect] = [(x, y, width, height)]

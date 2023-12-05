@@ -9,14 +9,14 @@ from opencv_apps.msg import RectArray, RectArrayStamped
 
 
 class HumanDetector:
-    def __init__(self) -> None:
+    def __init__(self):
         self.bridge = CvBridge()
         self.hog = cv2.HOGDescriptor()
         self.hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
         self.sub_rgb = rospy.Subscriber("/camera/rgb/image_raw", Image, self.register_rgb_images)
         self.pub_detection = rospy.Publisher("human_detection", RectArrayStamped, queue_size=10)
 
-    def register_rgb_images(self, message) -> None:
+    def register_rgb_images(self, message):
         if not isinstance(message, Image): return
         frame = self.bridge.imgmsg_to_cv2(message, "bgr8")
         detected_humans = self._detect_humans(frame)
@@ -25,12 +25,12 @@ class HumanDetector:
         detection_message = self._create_detection_message(detected_humans)
         self.pub_detection.publish(detection_message)
 
-    def _detect_humans(self, image) -> RectArray:
+    def _detect_humans(self, image):
         # RectArray = [Rect] = [(x, y, width, height)]
         humans, _ = self.hog.detectMultiScale(image, winStride=(10, 10), padding=(32, 32), scale=1.1)
         return humans
     
-    def _create_detection_message(self, humans: RectArray) -> RectArrayStamped:
+    def _create_detection_message(self, humans: RectArray):
         return RectArrayStamped(time.time(), humans)
 
 

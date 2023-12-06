@@ -1,4 +1,5 @@
 <launch>
+    <include file="$(find rplidar_ros)/launch/rplidar.launch"/>
     <include file="$(find color_detector)/launch/color_detector.launch"/>
     <node name='pid_controller' pkg="pid_controller" type="pid_controller.py" required="true" output="screen"/>
 </launch>

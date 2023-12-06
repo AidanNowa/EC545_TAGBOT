@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 # coding:utf-8
 import time
+import math
 import rospy
 import cv2
 import numpy as np
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-# from color_detector.msg import TargetPosition
+from color_detector.msg import TargetPosition
 
 CONTOUR_AREA_THRESHOLD = 300
 DEPTH_ENCODING = '32FC1'
-FOV_H = 60
+FOV_H = 73
 IMAGE_WIDTH = 640
+IMAGE_HEIGHT = 480
 
 
 class ColorDetector:
@@ -22,7 +24,7 @@ class ColorDetector:
         self.depth_image = None
         self.sub_rgb = rospy.Subscriber('/camera/rgb/image_raw', Image, self.register_rgb_image, queue_size=1)
         self.sub_depth = rospy.Subscriber('/camera/depth/image_raw', Image, self.register_depth_image, queue_size=1)
-        # self.pub_position = rospy.Publisher('target_position', TargetPosition, queue_size=10)
+        # self.pub_position = rospy.Publisher('tagbot/target_position', TargetPosition, queue_size=10)
 
     def on_shutdown(self):
         cv2.destroyAllWindows()
@@ -70,8 +72,8 @@ class ColorDetector:
         closest_target = None
         closest_distance = float('inf')
         for x, y, w, h in self.target_list:
-            x_center = x + w / 2
-            y_center = y + h / 2
+            x_center = math.min(x + w / 2, IMAGE_WIDTH)
+            y_center = math.min(y + h / 2, IMAGE_HEIGHT)
             distance = self.depth_image[x_center][y_center]
             if distance < closest_distance:
                 closest_target = [x_center, y_center]

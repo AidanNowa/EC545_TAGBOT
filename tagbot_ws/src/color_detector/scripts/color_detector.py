@@ -82,8 +82,7 @@ class ColorDetector:
         if closest_target is None: return None
         x_center, y_center = closest_target
         target_angle = x_center / IMAGE_WIDTH * FOV_H - FOV_H / 2
-        # print('closest_distance ', closest_distance)
-        # print('target_angle ', target_angle)
+        print('ColorDetector: dist {}, ang: {}'.format(closest_distance, target_angle))
         return (closest_distance, target_angle)
 
     def publish_target_position(self, target_position):

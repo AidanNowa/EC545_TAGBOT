@@ -2,7 +2,7 @@
 # coding:utf-8
 import rospy
 from sensor_msgs.msg import LaserScan
-from geometry_msgs.msg import Vector3Stamped, Twist
+from geometry_msgs.msg import Vector3, Vector3Stamped, Twist
 from dynamic_reconfigure.server import Server
 from yahboomcar_laser.cfg import laserTrackerPIDConfig
 
@@ -23,7 +23,7 @@ class PIDController:
         self.laser_angle = 90
         self.priority_angle = 30
         self.sub_laser = rospy.Subscriber('/scan', LaserScan, self.register_scan, queue_size=1)
-        self.sub_position = rospy.Subscriber('/tagbot/target_position', Vector3Stamped, queue_size=1)
+        self.sub_position = rospy.Subscriber('/tagbot/target_position', self.register_position, Vector3Stamped, queue_size=1)
 
     def on_shutdown(self):
         self.ros_ctrl.pub_vel.publish(Twist())
@@ -44,8 +44,7 @@ class PIDController:
                 self.ros_ctrl.pub_vel.publish(Twist())
                 self.moving = False
             return
-        if not self.is_target_detected():
-            print('target not detected')
+        if not self.is_target_detected(): return
         self.publish_pid_control()
 
     def is_target_detected(self):
@@ -63,7 +62,6 @@ class PIDController:
         return config
     
     def publish_pid_control(self):
-        print('publish_pid_control')
         if self.latest_position is None: return
         target_distance = self.latest_position.vector.x
         target_angle = self.latest_position.vector.y

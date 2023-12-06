@@ -10,9 +10,9 @@ from sensor_msgs.msg import Image
 
 CONTOUR_AREA_THRESHOLD = 300
 DEPTH_ENCODING = '32FC1'
-FOV_H = 73
-IMAGE_WIDTH = 640
-IMAGE_HEIGHT = 480
+FOV_H = 73.
+IMAGE_WIDTH = 640.
+IMAGE_HEIGHT = 480.
 
 
 class ColorDetector:
@@ -75,10 +75,10 @@ class ColorDetector:
             y_center = min(y + h / 2, IMAGE_HEIGHT)
             distance = self.depth_image[y_center - 1][x_center - 1]
             if distance < closest_distance:
-                closest_target = [x_center, y_center]
+                closest_target = (x_center, y_center)
                 closest_distance = distance
         if closest_target is None: return None
-        x_center = closest_target[0]
+        x_center, y_center = closest_target
         target_angle = x_center / IMAGE_WIDTH * FOV_H - FOV_H / 2
         print('closest_distance ', closest_distance)
         print('target_angle ', target_angle)

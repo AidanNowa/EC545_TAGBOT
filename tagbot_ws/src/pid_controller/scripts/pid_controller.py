@@ -21,7 +21,7 @@ class PIDController:
         self.response_dist = rospy.get_param('~targetDist', 1.0)
         Server(laserTrackerPIDConfig, self.dynamic_reconfigure_callback)
         self.laser_angle = 90
-        self.priorityAngle = 30
+        self.priority_angle = 30
         self.sub_laser = rospy.Subscriber('/scan', LaserScan, self.register_scan, queue_size=1)
         self.sub_position = rospy.Subscriber('/tagbot/target_position', Vector3Stamped, queue_size=1)
 
@@ -49,21 +49,22 @@ class PIDController:
         self.publish_pid_control()
 
     def is_target_detected(self):
-        if self.latest_position is None: False
+        if self.latest_position is None: return False
         two_seconds_ago = rospy.Time.now() - rospy.Duration(2)
         return self.latest_position.header.stamp > two_seconds_ago
     
     def dynamic_reconfigure_callback(self, config, level):
         self.switch = config['switch']
-        self.laserAngle = config['laserAngle']
-        self.priorityAngle = config['priorityAngle']
-        self.ResponseDist = config['ResponseDist']
+        self.laser_angle = config['laserAngle']
+        self.priority_angle = config['priorityAngle']
+        self.response_dist = config['ResponseDist']
         self.lin_pid.Set_pid(config['lin_Kp'], config['lin_Ki'], config['lin_Kd'])
         self.ang_pid.Set_pid(config['ang_Kp'], config['ang_Ki'], config['ang_Kd'])
         return config
     
     def publish_pid_control(self):
         print('publish_pid_control')
+        if self.latest_position is None: return
         target_distance = self.latest_position.vector.x
         target_angle = self.latest_position.vector.y
         twist = Twist()
@@ -71,7 +72,6 @@ class PIDController:
         twist.angular.z = target_angle if target_angle > 0.02 else 0
         self.moving = True
         self.ros_ctrl.pub_vel.publish(twist)
-
 
 
 if __name__ == '__main__':

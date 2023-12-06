@@ -49,6 +49,7 @@ class PIDController:
         self.publish_pid_control()
 
     def is_target_detected(self):
+        if self.latest_position is None: False
         two_seconds_ago = rospy.Time.now() - rospy.Duration(2)
         return self.latest_position.header.stamp > two_seconds_ago
     

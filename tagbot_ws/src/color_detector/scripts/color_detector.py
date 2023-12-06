@@ -6,7 +6,8 @@ import cv2
 import numpy as np
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-# from color_detector.msg import TargetPosition
+from std_msgs.msg import Header
+from geometry_msgs.msg import Vector3, Vector3Stamped
 
 CONTOUR_AREA_THRESHOLD = 300
 DEPTH_ENCODING = '32FC1'
@@ -18,18 +19,19 @@ IMAGE_HEIGHT = 480.
 class ColorDetector:
     def __init__(self):
         rospy.on_shutdown(self.on_shutdown)
+        self.frame_id = 'robot1'
         self.bridge = CvBridge()
         self.target_list = []
         self.depth_image = None
         self.sub_rgb = rospy.Subscriber('/camera/rgb/image_raw', Image, self.register_rgb_image, queue_size=1)
         self.sub_depth = rospy.Subscriber('/camera/depth/image_raw', Image, self.register_depth_image, queue_size=1)
-        # self.pub_position = rospy.Publisher('tagbot/target_position', TargetPosition, queue_size=10)
+        self.pub_position = rospy.Publisher('tagbot/target_position', Vector3Stamped, queue_size=10)
 
     def on_shutdown(self):
         cv2.destroyAllWindows()
         self.sub_rgb.unregister()
         self.sub_depth.unregister()
-        # self.pub_position.unregister()
+        self.pub_position.unregister()
 
     def register_rgb_image(self, message):
         if not isinstance(message, Image): return
@@ -82,17 +84,19 @@ class ColorDetector:
         target_angle = x_center / IMAGE_WIDTH * FOV_H - FOV_H / 2
         print('closest_distance ', closest_distance)
         print('target_angle ', target_angle)
-        pass
-        # target_position = TargetPosition()
-        # target_position.timestamp = time.time()
-        # target_position.distance = closest_distance
-        # target_position.angle = target_angle
-        # return target_position
+        return (closest_distance, target_angle)
 
     def publish_target_position(self, target_position):
         if target_position is None: return
-        print('Publish target_position: {}, {}, {}', target_position.timestamp, target_position.distance, target_position.angle)
-        # self.pub_position.publish(target_position)
+        closest_distance, target_angle = target_position
+        message = Vector3Stamped()
+        message.header = Header()
+        message.header.stamp = rospy.Time.now()
+        message.header.frame_id = self.frame_id
+        message.vector = Vector3()
+        message.vector.x = closest_distance
+        message.vector.y = target_angle
+        self.pub_position.publish(message)
 
 
 if __name__ == '__main__':

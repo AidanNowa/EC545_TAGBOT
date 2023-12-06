@@ -63,7 +63,7 @@ class PIDController:
     
     def publish_pid_control(self):
         if self.latest_position is None: return
-        target_distance = self.latest_position.vector.x
+        target_distance = self.latest_position.vector.x / 1000.
         target_angle = self.latest_position.vector.y
         twist = Twist()
         twist.linear.x = -self.lin_pid.pid_compute(self.response_dist, target_distance)

@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from color_detector.msg import TargetPosition
+# from color_detector.msg import TargetPosition
 
 CONTOUR_AREA_THRESHOLD = 300
 DEPTH_ENCODING = '32FC1'
@@ -74,7 +74,7 @@ class ColorDetector:
         for x, y, w, h in self.target_list:
             x_center = math.min(x + w / 2, IMAGE_WIDTH)
             y_center = math.min(y + h / 2, IMAGE_HEIGHT)
-            distance = self.depth_image[x_center][y_center]
+            distance = self.depth_image[x_center - 1][y_center - 1]
             if distance < closest_distance:
                 closest_target = [x_center, y_center]
                 closest_distance = distance

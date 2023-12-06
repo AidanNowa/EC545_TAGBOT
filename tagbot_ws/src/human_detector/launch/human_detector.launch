@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find astra_camera)/launch/astrapro.launch"/>
+    <!-- Activate lidar follow node -->
+    <node name='human_detector' pkg="human_detector" type="human_detector.py" required="true" output="screen"/>
+</launch>

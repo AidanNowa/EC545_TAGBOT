@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding:utf-8
 import time
-import math
 import rospy
 import cv2
 import numpy as np
@@ -72,9 +71,9 @@ class ColorDetector:
         closest_target = None
         closest_distance = float('inf')
         for x, y, w, h in self.target_list:
-            x_center = math.min(x + w / 2, IMAGE_WIDTH)
-            y_center = math.min(y + h / 2, IMAGE_HEIGHT)
-            distance = self.depth_image[x_center - 1][y_center - 1]
+            x_center = min(x + w / 2, IMAGE_WIDTH)
+            y_center = min(y + h / 2, IMAGE_HEIGHT)
+            distance = self.depth_image[y_center - 1][x_center - 1]
             if distance < closest_distance:
                 closest_target = [x_center, y_center]
                 closest_distance = distance

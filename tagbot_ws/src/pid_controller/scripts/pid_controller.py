@@ -23,7 +23,7 @@ class PIDController:
         self.laser_angle = 90
         self.priority_angle = 30
         self.sub_laser = rospy.Subscriber('/scan', LaserScan, self.register_scan, queue_size=1)
-        self.sub_position = rospy.Subscriber('/tagbot/target_position', self.register_position, Vector3Stamped, queue_size=1)
+        self.sub_position = rospy.Subscriber('/tagbot/target_position', Vector3Stamped, self.register_position, queue_size=1)
 
     def on_shutdown(self):
         self.ros_ctrl.pub_vel.publish(Twist())

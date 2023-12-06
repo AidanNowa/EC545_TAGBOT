@@ -33,7 +33,7 @@ class PIDController:
 
     def register_position(self, message):
         if not isinstance(message, Vector3Stamped): return
-        if self.latest_position.header.stamp > message.header.stamp: return # Ignores old messages
+        if self.latest_position is not None and self.latest_position.header.stamp > message.header.stamp: return # Ignores old messages
         if message.vector.x == 0: return # Ignores invalid readings
         self.latest_position = message
 

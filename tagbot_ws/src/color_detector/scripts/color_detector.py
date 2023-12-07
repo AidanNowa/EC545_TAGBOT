@@ -9,7 +9,7 @@ from sensor_msgs.msg import Image
 from std_msgs.msg import Header
 from geometry_msgs.msg import Vector3, Vector3Stamped
 
-CONTOUR_AREA_THRESHOLD = 300
+CONTOUR_AREA_THRESHOLD = 600
 DEPTH_ENCODING = '32FC1'
 FOV_H = 73.
 IMAGE_WIDTH = 640.

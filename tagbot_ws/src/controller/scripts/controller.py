@@ -86,10 +86,10 @@ class TagBotController:
         right_count = left_count = front_count = 0
         for i in range(len(ranges)):
             angle = (scan_data.angle_min + scan_data.angle_increment * i) * RAD2DEG
-            if 160 > angle > 130:
+            if 160 > angle > 70:
                 if ranges[i] < TAG_THRESHOLD: # TODO Maybe set another distance threshold for obstacle avoidance
                     right_count += 1
-            if -160 < angle < -130:
+            if -160 < angle < -70:
                 if ranges[i] < TAG_THRESHOLD:
                     left_count += 1
             if abs(angle) > 160:

@@ -72,6 +72,7 @@ class TagBotController:
         if self.has_caught:
             self.move_robot(distance=0, angle=18)
             self.bot.beep(100)
+            sleep(0.5)
             print('Caught, finished')
             return
         if self.is_target_caught():

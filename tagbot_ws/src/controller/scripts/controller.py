@@ -11,7 +11,8 @@ from yahboomcar_laser.cfg import laserAvoidPIDConfig
 from Rosmaster_Lib import Rosmaster
 
 RAD2DEG = 180 / math.pi
-TAG_THRESHOLD = 0.6 # meters
+OBSTACLE_THRESHOLD = 0.6 # meters
+TAG_THRESHOLD = 0.8 # meters
 TURN_ANGLE = 0.5 # radian
 
 
@@ -44,6 +45,11 @@ class TagBotController:
         if self.latest_position is None: return False
         two_seconds_ago = rospy.Time.now() - rospy.Duration(2)
         return self.latest_position.header.stamp > two_seconds_ago
+    
+    def is_target_caught(self):
+        if not self.is_target_detected(): return False
+        target_distance = self.latest_position.vector.x
+        return target_distance < TAG_THRESHOLD
 
     def cancel(self):
         self.ros_ctrl.pub_vel.publish(Twist())
@@ -61,6 +67,9 @@ class TagBotController:
     def register_scan(self, scan_data):
         if not isinstance(scan_data, LaserScan): return
         self.update_obstacle_warnings(scan_data)
+        if self.is_target_caught():
+            self.bot.set_beep(100)
+            self.set_color_light('green')
         if self.is_obstacles_detected():
             # Turn away from the obstacles
             self.set_color_light('yellow')
@@ -83,13 +92,13 @@ class TagBotController:
         for i in range(len(ranges)):
             angle = (scan_data.angle_min + scan_data.angle_increment * i) * RAD2DEG
             if 160 > angle > 70:
-                if ranges[i] < TAG_THRESHOLD: # TODO Maybe set another distance threshold for obstacle avoidance
+                if ranges[i] < OBSTACLE_THRESHOLD:
                     right_count += 1
             if -160 < angle < -70:
-                if ranges[i] < TAG_THRESHOLD:
+                if ranges[i] < OBSTACLE_THRESHOLD:
                     left_count += 1
             if abs(angle) > 160:
-                if ranges[i] <= TAG_THRESHOLD:
+                if ranges[i] <= OBSTACLE_THRESHOLD:
                     front_count += 1
         self.right_warning = right_count > 10
         self.left_warning = left_count > 10

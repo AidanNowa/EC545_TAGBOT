@@ -13,7 +13,7 @@ from Rosmaster_Lib import Rosmaster
 RAD2DEG = 180 / math.pi
 OBSTACLE_THRESHOLD = 0.6 # meters
 TAG_THRESHOLD = 0.8 # meters
-TURN_ANGLE = 0.1 # radian
+TURN_ANGLE = 0.2 # radian
 
 
 class TagBotController:
@@ -113,7 +113,7 @@ class TagBotController:
         twist.linear.x = distance
         twist.angular.z = angle
         self.ros_ctrl.pub_vel.publish(twist)
-        # sleep(0.2)
+        sleep(0.1)
 
     def avoid_obstacles(self):
         if self.front_warning and self.left_warning and self.right_warning:

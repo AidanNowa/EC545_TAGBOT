@@ -69,12 +69,6 @@ class TagBotController:
     def register_scan(self, scan_data):
         if not isinstance(scan_data, LaserScan): return
         self.update_obstacle_warnings(scan_data)
-        if self.has_caught:
-            self.move_robot(distance=0, angle=18)
-            self.bot.set_beep(100)
-            sleep(0.5)
-            print('Caught, finished')
-            return
         if self.is_target_caught():
             self.set_color_light('green')
         if self.is_obstacles_detected():

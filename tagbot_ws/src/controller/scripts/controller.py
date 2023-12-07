@@ -30,6 +30,7 @@ class TagBotController:
         self.ang_pid = SinglePID(3.0, 0.0, 5.0)
         Server(laserAvoidPIDConfig, self.dynamic_reconfigure_callback)
         self.latest_position = None
+        self.has_caught = False
         self.sub_laser = rospy.Subscriber('/scan', LaserScan, self.register_scan, queue_size=1)
         self.sub_position = rospy.Subscriber('/tagbot/target_position', Vector3Stamped, self.register_position, queue_size = 1)
 
@@ -49,6 +50,7 @@ class TagBotController:
     def is_target_caught(self):
         if not self.is_target_detected(): return False
         target_distance = self.latest_position.vector.x
+        self.has_caught = True
         return target_distance < TAG_THRESHOLD
 
     def cancel(self):
@@ -67,8 +69,12 @@ class TagBotController:
     def register_scan(self, scan_data):
         if not isinstance(scan_data, LaserScan): return
         self.update_obstacle_warnings(scan_data)
+        if self.has_caught:
+            self.move_robot(distance=0, angle=18)
+            self.bot.beep(100)
+            print('Caught, finished')
+            return
         if self.is_target_caught():
-            self.bot.set_beep(100)
             self.set_color_light('green')
         if self.is_obstacles_detected():
             # Turn away from the obstacles

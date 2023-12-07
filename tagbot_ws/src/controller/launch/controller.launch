@@ -1,5 +1,5 @@
 <launch>
  <include file="$(find yahboomcar_laser)/launch/base.launch"/>
- <include file="$(find color_detector)/launch/color_detector.launch"/>   
+ <include file="$(find color_detector)/launch/color_detector.launch"/>
  <node name='controller' pkg="controller" type="controller.py" required="true" output="screen"/>
 </launch>

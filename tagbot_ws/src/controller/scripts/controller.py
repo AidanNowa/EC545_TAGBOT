@@ -121,17 +121,17 @@ class TagBotController:
             self.move_robot(distance=0, angle=-self.angular)
         elif self.front_warning and not self.left_warning and not self.right_warning:
             # Turn left
-            self.move_robot(disntace=0, angle=self.angular)
+            self.move_robot(distance=0, angle=self.angular)
         elif not self.front_warning and self.left_warning and self.right_warning:
             # Turn right
-            self.move_robot(disntace=0, angle=-self.angular)
+            self.move_robot(distance=0, angle=-self.angular)
             sleep(0.2)
         elif not self.front_warning and self.left_warning and not self.right_warning:
             # Turn right
-            self.move_robot(disntace=0, angle=-self.angular)
+            self.move_robot(distance=0, angle=-self.angular)
         elif not self.front_warning and not self.left_warning and self.right_warning:
             # Turn left
-            self.move_robot(disntace=0, angle=self.angular)
+            self.move_robot(distance=0, angle=self.angular)
 
     def chase_target(self):
         target_distance = self.latest_position.vector.x / 1000.0

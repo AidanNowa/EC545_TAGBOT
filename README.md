@@ -55,9 +55,8 @@ The `color_detector` looks for the closest object with a specified color  and re
 ![LiDAR Field of View](/images/lidar_fov.jpg)
 The object avoidance block guides the robot to turn away from detected objects or walls. This block depends on a ROS topic for 2D LiDAR measurements, `/scan`. The LiDAR has front field of view (FOV) of 320 degrees, with 40 degrees of blind spot on behind. For simplicity, we devided the 320 FOV into 3 directions: left, front, and right. For each direction, it flags a warning when there are more than a certain number of point clouds within a threshold distance (0.6 meters). When warnings are present, the robot stops and rotates on the spot to turn away from the flagged directions. When all three directions are flagged, the robot backs up for 0.15 meters then rotates to a different direction.
 
-#### Search
-
-#### Chase
+#### Search & Chase
+Our implementation includes straightforward search and chase algorithms. The search state is activated when no objects or targets are detected in its surroundings. During the search state, the controller guides the robot to move forward. Upon receiving a target position, the chase state initiates. In this state, the robot rotates to align the target angle and then moves forward. Finally, the object avoidance state takes precedence over these two states. This state prioritizes steering the robot away from obstacles to ensure its safety.
 
 
 ## Testing and Analysis

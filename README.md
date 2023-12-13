@@ -83,3 +83,7 @@ We analyzed the state transition with (https://uppaal.org/)
 ![UPPAAL diagram](images/UPPAAL-tagbots.png)
 
 In the UPPAL robot diagram, a 'tagged' state indicates when the robot successfully tags a player within 0.6 meters. Transition between all states is possible except from the initial state. A hierarchical state machine with an upper layer for object avoidance is proposed for future clarity and safety.
+
+## Conclusion
+Our objective was achieved!
+![LiDAR Field of View](/images/goal_achieved.png)

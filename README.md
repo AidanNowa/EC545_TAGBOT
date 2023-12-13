@@ -76,3 +76,11 @@ The object avoidance block guides the robot to turn away from detected objects o
 ### Object Avoidance
 * Capable of detecting and avoiding walls with high accuracy
 * When it comes to relatively smaller objects, such as legs of chairs
+
+### UPPAAL analysis
+
+We analyzed the state transition with (https://uppaal.org/)
+
+![UPPAAL diagram](images/UPPAAL-tagbots.png)
+
+In the UPPAL robot diagram, a 'tagged' state indicates when the robot successfully tags a player within 0.6 meters. Transition between all states is possible except from the initial state. A hierarchical state machine with an upper layer for object avoidance is proposed for future clarity and safety.

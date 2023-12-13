@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+chan start;
+bool obstacle;
+bool detected;
+bool tagged_distance; // within 0.6m
+chan green;
+chan blue;</declaration>
+	<template>
+		<name x="5" y="5">Tagbot</name>
+		<declaration>// Place local declarations here.
+clock x;</declaration>
+		<location id="id0" x="-161" y="-25">
+		</location>
+		<location id="id1" x="-26" y="-8">
+			<name x="-9" y="-25">Searching</name>
+		</location>
+		<location id="id2" x="272" y="-8">
+			<name x="289" y="-17">Avoiding</name>
+		</location>
+		<location id="id3" x="127" y="170">
+			<name x="51" y="170">Chasing</name>
+		</location>
+		<location id="id4" x="127" y="340">
+			<name x="144" y="340">Tagged</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="guard" x="195" y="153">!obstacle &amp;&amp; 
+detected &amp;&amp; 
+!tagged_distance</label>
+			<label kind="synchronisation" x="195" y="204">blue!</label>
+			<nail x="157" y="174"/>
+			<nail x="191" y="174"/>
+			<nail x="217" y="199"/>
+			<nail x="191" y="216"/>
+			<nail x="166" y="216"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id4"/>
+			<label kind="guard" x="153" y="399">!obstacle &amp;&amp; 
+detected &amp;&amp;
+tagged_distance</label>
+			<label kind="synchronisation" x="161" y="450">green!</label>
+			<label kind="comments" x="17" y="408">Keep distance</label>
+			<nail x="93" y="382"/>
+			<nail x="136" y="416"/>
+			<nail x="161" y="382"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id2"/>
+			<label kind="guard" x="340" y="-76">obstacle</label>
+			<label kind="comments" x="280" y="-110">Avoid obstacle</label>
+			<nail x="272" y="-68"/>
+			<nail x="314" y="-85"/>
+			<nail x="340" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="comments" x="-94" y="-127">Go straight</label>
+			<nail x="-85" y="-68"/>
+			<nail x="-68" y="-102"/>
+			<nail x="-17" y="-93"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="guard" x="161" y="229">!obstacle &amp;&amp; 
+detected &amp;&amp; 
+!tagged_distance</label>
+			<label kind="synchronisation" x="161" y="280">blue!</label>
+			<nail x="161" y="255"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="8" y="221">!obstacle &amp;&amp; 
+detected &amp;&amp; 
+tagged_distance</label>
+			<label kind="synchronisation" x="17" y="272">green!</label>
+			<nail x="85" y="238"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="guard" x="297" y="144">obstacle</label>
+			<nail x="323" y="280"/>
+			<nail x="365" y="102"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="guard" x="416" y="170">!obstacle &amp;&amp; 
+detected</label>
+			<nail x="433" y="93"/>
+			<nail x="374" y="306"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-229" y="195">!obstacle &amp;&amp; 
+detected &amp;&amp; 
+tagged_distance</label>
+			<nail x="-136" y="85"/>
+			<nail x="-102" y="297"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-85" y="178">!obstacle &amp;&amp; 
+!detected</label>
+			<nail x="-59" y="255"/>
+			<nail x="-93" y="93"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="guard" x="17" y="51">!obstacle &amp;&amp; 
+!detected</label>
+			<nail x="42" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-51" y="110">!obstacle &amp;&amp; 
+detected</label>
+			<label kind="synchronisation" x="-34" y="144">blue!</label>
+			<nail x="-1" y="111"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="246" y="76">!obstacle &amp;&amp; 
+detected</label>
+			<label kind="synchronisation" x="246" y="110">blue!</label>
+			<nail x="238" y="110"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="127" y="51">obstacle</label>
+			<nail x="170" y="76"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="93" y="-17">!obstacle &amp;&amp;
+!detected</label>
+			<nail x="127" y="25"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="93" y="-68">obstacle</label>
+			<nail x="-17" y="-17"/>
+			<nail x="127" y="-42"/>
+		</transition>
+	</template>
+	<template>
+		<name>LiDAR</name>
+		<declaration>clock y;</declaration>
+		<location id="id5" x="-255" y="-246">
+		</location>
+		<location id="id6" x="-161" y="-246">
+			<name x="-195" y="-280">no_obstacle</name>
+		</location>
+		<location id="id7" x="17" y="-246">
+			<name x="7" y="-280">obstacle_ahead</name>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="-110" y="-195">obstacle = false</label>
+			<nail x="-76" y="-195"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="assignment" x="-119" y="-340">obstacle = true</label>
+			<nail x="-76" y="-314"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+		</transition>
+	</template>
+	<template>
+		<name>Camera</name>
+		<declaration>clock z;
+
+double measure()
+{
+   return random(1.0);
+}</declaration>
+		<location id="id8" x="-229" y="-42">
+		</location>
+		<location id="id9" x="-144" y="-42">
+			<name x="-187" y="-85">not_detected</name>
+		</location>
+		<location id="id10" x="34" y="-42">
+			<name x="24" y="-76">target_detected</name>
+		</location>
+		<init ref="id8"/>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id10"/>
+			<label kind="assignment" x="-8" y="68">tagged_distance = (measure() &lt; 0.6)</label>
+			<nail x="220" y="-5"/>
+			<nail x="186" y="54"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id9"/>
+			<label kind="assignment" x="-93" y="17">detected = false</label>
+			<nail x="-35" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="assignment" x="-144" y="-153">detected = true,
+tagged_distance = (measure() &lt; 0.6)</label>
+			<nail x="-34" y="-110"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+		</transition>
+	</template>
+	<template>
+		<name>Tail_Lamp</name>
+		<declaration>clock c;</declaration>
+		<location id="id11" x="-646" y="-110">
+		</location>
+		<location id="id12" x="-450" y="-195">
+			<name x="-460" y="-229">tagged_green</name>
+		</location>
+		<location id="id13" x="-450" y="-42">
+			<name x="-467" y="-25">chasing_blue</name>
+		</location>
+		<location id="id14" x="-561" y="-110">
+		</location>
+		<init ref="id11"/>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-382" y="-127">blue?</label>
+			<nail x="-391" y="-119"/>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="-501" y="-119">green?</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-535" y="-76">blue?</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="-543" y="-169">green?</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id14"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+lidar = LiDAR();
+camera = Camera();
+robot = Tagbot();
+tail_lamp = Tail_Lamp();
+// List one or more processes to be composed into a system.
+system lidar, camera, robot, tail_lamp;</system>
+	<queries>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
